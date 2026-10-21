@@ -20,7 +20,7 @@
             color: #ffffff;
         }
 
-        /* Background Graphic Canvas */
+        /* Dark Gaming Background Graphics */
         #bg-canvas {
             position: absolute;
             top: 0;
@@ -30,7 +30,7 @@
             z-index: 1;
         }
 
-        /* Overlay Layout */
+        /* Screen Layout */
         .container {
             position: relative;
             z-index: 2;
@@ -42,7 +42,7 @@
             align-items: center;
             padding: 2rem 1rem;
             text-align: center;
-            background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(11,14,20,0.85) 100%);
+            background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(11,14,20,0.85) 100%);
         }
 
         .hero-section {
@@ -53,15 +53,16 @@
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
             text-shadow: 0 0 20px rgba(0, 230, 153, 0.6);
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             color: #ffffff;
         }
 
+        /* Play Now Button */
         .play-btn {
             display: inline-block;
             padding: 1.2rem 3.5rem;
@@ -85,31 +86,125 @@
             background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
         }
 
-        /* Footer Description Section */
-        .footer-info {
+        /* Description Section */
+        .description {
             max-width: 600px;
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #a0aec0;
-            background: rgba(22, 27, 34, 0.75);
+            color: #d0d7de;
+            background: rgba(22, 27, 34, 0.8);
             padding: 1.2rem 1.5rem;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
         }
 
-        .footer-info p {
+        .description p {
             margin-bottom: 0.4rem;
         }
 
-        .footer-info a {
+        .description a {
             color: #00c6ff;
             text-decoration: none;
             word-break: break-all;
         }
 
-        .footer-info a:hover {
+        .description a:hover {
             text-decoration: underline;
         }
 
-        @media
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .play-btn {
+                padding: 1rem 2.5rem;
+                font-size: 1.2rem;
+            }
+            .description {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Gaming Graphic Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="container">
+        <!-- Main Content -->
+        <div class="hero-section">
+            <h1>Welcome to Ansh Games</h1>
+            <a href="Ansh_Games-Premium.html" class="play-btn">Play Now</a>
+        </div>
+
+        <!-- Description -->
+        <div class="description">
+            <p>Thanks for Visint our Site</p>
+            <p>Created and Produced by Divansh Sama</p>
+            <p>Games are creted after many errors and trials, it took a lot of bugs..</p>
+            <p>If you have recommendations</p>
+            <p>Contact divansh sama</p>
+            <p>Through-<a href="mailto:anshsama000@gmail.com">anshsama000@gmail.com</a></p>
+        </div>
+    </div>
+
+    <!-- Dynamic Graphics Animation -->
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const particles = [];
+        const shapes = ['square', 'circle', 'triangle'];
+
+        for (let i = 0; i < 35; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 20 + 10,
+                speedX: (Math.random() - 0.5) * 1.2,
+                speedY: (Math.random() - 0.5) * 1.2,
+                shape: shapes[Math.floor(Math.random() * shapes.length)],
+                color: `rgba(${Math.floor(Math.random() * 100)}, ${Math.floor(Math.random() * 200 + 55)}, 255, ${Math.random() * 0.25 + 0.1})`
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                if (p.shape === 'circle') {
+                    ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+                } else if (p.shape === 'square') {
+                    ctx.rect(p.x, p.y, p.size, p.size);
+                } else if (p.shape === 'triangle') {
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p.x + p.size, p.y + p.size);
+                    ctx.lineTo(p.x - p.size, p.y + p.size);
+                }
+                ctx.closePath();
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
